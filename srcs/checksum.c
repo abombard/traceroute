@@ -1,29 +1,41 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   checksum.c                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: abombard <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2017/05/06 14:50:43 by abombard          #+#    #+#             */
+/*   Updated: 2017/05/06 14:50:51 by abombard         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "traceroute.h"
 
-u_int16_t	compute_checksum(u_int8_t *buf, unsigned int size)
+uint16_t	compute_checksum(uint8_t *buf, unsigned int size)
 {
-	u_int64_t		sum;
+	uint64_t		sum;
 	unsigned int	i;
 
 	sum = 0;
 	i = 0;
 	while (i < size)
 	{
-		sum += *(u_int16_t *)buf;
-		buf += sizeof(u_int16_t);
-		i += sizeof(u_int16_t);
+		sum += *(uint16_t *)buf;
+		buf += sizeof(uint16_t);
+		i += sizeof(uint16_t);
 	}
 	if (size - i > 0)
-		sum += *(u_int8_t *)buf;
+		sum += *(uint8_t *)buf;
 	while ((sum >> 16) != 0)
 		sum = (sum & 0xffff) + (sum >> 16);
-	return ((u_int16_t)~sum);
+	return ((uint16_t)~sum);
 }
 
 int		checksum_isvalid(struct icmphdr *icmp)
 {
-	u_int16_t		checksum;
-	u_int16_t		expected_checksum;
+	uint16_t		checksum;
+	uint16_t		expected_checksum;
 
 	checksum = icmp->checksum;
 	icmp->checksum = 0;

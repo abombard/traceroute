@@ -1,0 +1,33 @@
+#include "traceroute.h"
+
+int		wsock_ready(int sfd)
+{
+	fd_set			fds;
+	struct timeval	tv;
+	int				nfds;
+
+	FD_ZERO(&fds);
+	FD_SET(sfd, &fds);
+	tv.tv_sec = 1;
+	tv.tv_usec = /* MAXWAIT */ 0;
+	nfds = select(sfd + 1, NULL, &fds, NULL, &tv);
+	return (nfds > 0);
+}
+
+int		rsock_ready(int sfd)
+{
+	fd_set			fds;
+	struct timeval	tv;
+	int				nfds;
+
+	FD_ZERO(&fds);
+	FD_SET(sfd, &fds);
+	tv.tv_sec = 1;
+	tv.tv_usec = /* MAXWAIT */ 0;
+	nfds = select(sfd + 1, &fds, NULL, NULL, &tv);
+	if (nfds < 0)
+	{
+		perror("select");
+	}
+	return (nfds > 0);
+}

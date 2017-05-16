@@ -1,20 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   printf.h                                           :+:      :+:    :+:   */
+/*   ip_dump.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: abombard <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/02/06 18:17:22 by abombard          #+#    #+#             */
-/*   Updated: 2017/02/06 18:17:32 by abombard         ###   ########.fr       */
+/*   Created: 2017/05/09 14:04:44 by abombard          #+#    #+#             */
+/*   Updated: 2017/05/09 14:04:45 by abombard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef FT_PRINTF_H
-# define FT_PRINTF_H
+#include "traceroute.h"
 
-int	ft_printf(const char *fmt, ...) __attribute__((format(printf,1,2)));
-int	ft_fprintf(int fd, const char *fmt, \
-								...) __attribute__((format(printf,2,3)));
-
-#endif
+void	ip_dump(struct iphdr *ip)
+{
+	printf("ip v %d size %d\n", ip->version, ip->ihl << 2);
+	printf("tos %d tot_len %d id %d frag_off %d ttl %d protocol %d check %d\n",
+			ip->tos, ip->tot_len, ip->id, ip->frag_off, ip->ttl, ip->protocol,
+			ip->check);
+	printf("saddr %s daddr %s\n", inet_ntoa(*(struct in_addr *)&ip->saddr),
+			inet_ntoa(*(struct in_addr *)&ip->daddr));
+}
