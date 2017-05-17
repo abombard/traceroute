@@ -12,11 +12,11 @@
 
 #include "traceroute.h"
 
-struct timeval	round_triptime(struct timeval *tp, struct timezone *tz)
+struct timeval	round_triptime(struct timeval *tp)
 {
 	struct timeval	tv;
 
-	gettimeofday(&tv, tz);
+	gettimeofday(&tv, (struct timezone *)0);
 	tvsub(&tv, tp);
 	return (tv);
 }

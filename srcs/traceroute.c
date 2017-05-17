@@ -23,7 +23,7 @@ void	traceroute(t_context *context)
 		while (context->npackets < 3)
 		{
 			send_packet(context);
-			gettimeofday(&context->tv, &context->tz);
+			gettimeofday(&context->tv, (struct timezone *)0);
 			recv_packet(context);
 			context->seq += 1;
 			context->npackets += 1;

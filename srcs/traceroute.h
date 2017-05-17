@@ -72,7 +72,6 @@ typedef struct			s_context
 	int					seq;
 
 	struct timeval		tv;
-	struct timezone		tz;
 
 	int					reachedtarget;
 
@@ -115,7 +114,7 @@ int						rsock_ready(int sfd);
 int						send_packet(t_context *context);
 int						recv_packet(t_context *context);
 
-struct timeval			round_triptime(struct timeval *tp, struct timezone *tz);
+struct timeval			round_triptime(struct timeval *tp);
 
 void					print_triptime(
 		struct icmp *icmp, t_context *context);
