@@ -1,40 +1,34 @@
-#include "traceroute.h"
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   traceroute.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: abombard <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2017/05/17 16:36:51 by abombard          #+#    #+#             */
+/*   Updated: 2017/05/17 16:36:54 by abombard         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
-void	setsock_ttl(int sndsfd, int ttl)
-{
-	if (setsockopt(sndsfd, IPPROTO_IP, IP_TTL,
-				&ttl, sizeof(ttl)))
-	{
-		perror(PROGNAME ": setsockopt");
-		exit(EXIT_FAILURE);
-	}
-}
+#include "traceroute.h"
 
 void	traceroute(t_context *context)
 {
-	newsock(context);
 	context->reachedtarget = 0;
 	context->ttl = 1;
 	while (context->ttl <= context->hops && !context->reachedtarget)
 	{
-		//setsock_ttl(context->sndsfd, context->ttl);
 		printf("%2d ", context->ttl);
 		context->npackets = 0;
 		while (context->npackets < 3)
 		{
 			send_packet(context);
-
-			gettimeofday(&context->tvbegin,
-				(struct timezone *)0);
-
+			gettimeofday(&context->tv, &context->tz);
 			recv_packet(context);
-
 			context->seq += 1;
 			context->npackets += 1;
 		}
 		printf("\n");
 		context->ttl += 1;
 	}
-	close(context->sndsfd);
-	close(context->sfd);
 }

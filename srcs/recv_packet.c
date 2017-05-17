@@ -56,16 +56,12 @@ int		recv_packet(t_context *context)
 		struct udphdr	*udp;
 
 		unpack(packet, &ip, &icmp, &udp);
-
-		//fprintf(stderr, "packlen %d\n", packlen);
-
 		packlen -= ip->ip_hl << 2;
 		if ((unsigned long)packlen < ICMP_MINLEN)
 		{
 			fprintf(stderr, PROGNAME ": packet too short (%d bytes)\n", packlen);
 			return (0);
 		}
-
 		if (udp->uh_sport != htons(context->ident) ||
 			udp->uh_dport != htons(context->port + context->seq))
 		{
@@ -79,13 +75,6 @@ int		recv_packet(t_context *context)
 			continue ;
 		}
 
-		/*
-		fprintf(stderr, "icmp type %d code %d icmp seq %d expect %d icmp id %d expect %d\n",
-				icmp.icmp_type, icmp.icmp_code,
-				icmp.icmp_seq, context->seq,
-				icmp.icmp_id, context->ident);
-		*/
-
 		if (ft_memcmp(&context->fromaddr, &from, sizeof(from)))
 		{
 			gethostaddrstr(&from, context->fromaddrstr, sizeof(context->fromaddrstr));
@@ -96,12 +85,10 @@ int		recv_packet(t_context *context)
 			printf(" %s (%s)", context->fromnamestr, context->fromaddrstr);
 		}
 
-		long	triptime;
+		struct timeval	triptime;
 
-		triptime = round_triptime(&context->tvbegin);
-		printf("  %ld.%ld ms", triptime / 1000, triptime % 1000);
-
-		//printf(" type %d", icmp->icmp_type);
+		triptime = round_triptime(&context->tv, &context->tz);
+		printf("  %ld.%d ms", triptime.tv_sec * 1000 + triptime.tv_usec / 1000, triptime.tv_usec % 1000);
 
 		if (icmp->icmp_type == ICMP_UNREACH)
 			context->reachedtarget = 1;

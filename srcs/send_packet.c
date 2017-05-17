@@ -6,7 +6,7 @@
 /*   By: abombard <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/06 14:57:40 by abombard          #+#    #+#             */
-/*   Updated: 2017/05/06 15:00:43 by abombard         ###   ########.fr       */
+/*   Updated: 2017/05/17 16:33:53 by abombard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,9 +33,8 @@ static int		init_packet(u_char *packet, t_context *context)
 	tp = (struct timeval *)(ttl + 1);
 	ip->ip_v = 4;
 	ip->ip_hl = sizeof(*ip) >> 2;
-	//ip->ip_src = 0;
 	ip->ip_dst = ((struct sockaddr_in *)&context->targetaddr)->sin_addr;
-	ip->ip_p = SOL_UDP;
+	ip->ip_p = IPPROTO_UDP;
 	ip->ip_ttl = context->ttl;
 	ip->ip_len = htons(packlen);
 	udp->uh_sport = htons(context->ident);
@@ -45,7 +44,6 @@ static int		init_packet(u_char *packet, t_context *context)
 	*seq = context->seq;
 	*ttl = context->ttl;
 	gettimeofday(tp, 0);
-
 	return (packlen);
 }
 

@@ -6,7 +6,7 @@
 /*   By: abombard <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/06 14:49:58 by abombard          #+#    #+#             */
-/*   Updated: 2017/05/06 14:50:35 by abombard         ###   ########.fr       */
+/*   Updated: 2017/05/17 16:33:18 by abombard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,6 @@ extern void			gethostaddrstr(
 		const struct sockaddr *sockaddr,
 		char *hostaddr, size_t size_max)
 {
-	
 	if (sockaddr->sa_family == AF_INET)
 		gethostaddrv4(sockaddr, hostaddr, size_max);
 	else if (sockaddr->sa_family == AF_INET6)

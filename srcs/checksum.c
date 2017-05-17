@@ -32,13 +32,13 @@ uint16_t	compute_checksum(uint8_t *buf, unsigned int size)
 	return ((uint16_t)~sum);
 }
 
-int		checksum_isvalid(struct icmphdr *icmp)
+int			checksum_isvalid(struct icmp *icmp)
 {
 	uint16_t		checksum;
 	uint16_t		expected_checksum;
 
-	checksum = icmp->checksum;
-	icmp->checksum = 0;
-	expected_checksum = compute_checksum((void *)icmp, sizeof(struct icmphdr));
+	checksum = icmp->icmp_cksum;
+	icmp->icmp_cksum = 0;
+	expected_checksum = compute_checksum((void *)icmp, sizeof(struct icmp));
 	return (checksum == expected_checksum);
 }

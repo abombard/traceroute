@@ -14,5 +14,5 @@
 
 void	usage(char *prog)
 {
-	fprintf(stderr, "Usage: %s [-h|-p <port>] ip\n", prog);
+	fprintf(stderr, "Usage: %s [-h] ip\n", prog);
 }

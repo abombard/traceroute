@@ -12,13 +12,11 @@
 
 #include "traceroute.h"
 
-long	round_triptime(struct timeval *tp)
+struct timeval	round_triptime(struct timeval *tp, struct timezone *tz)
 {
 	struct timeval	tv;
-	long			triptime;
 
-	(void)gettimeofday(&tv, (struct timezone *)0);
+	gettimeofday(&tv, tz);
 	tvsub(&tv, tp);
-	triptime = tv.tv_sec * 10000000 + tv.tv_usec;
-	return (triptime);
+	return (tv);
 }

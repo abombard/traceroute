@@ -22,9 +22,12 @@ int		main(int argc, char **argv)
 		exit(EXIT_FAILURE);
 	}
 	context = init(argc, argv);
+	newsock(&context);
 	printf("traceroute to %s (%s), %d hops max, %d byte packets.\n",
 		context.targetnamestr, context.targetaddrstr,
 		context.hops, 60);
 	traceroute(&context);
+	close(context.sndsfd);
+	close(context.sfd);
 	return (0);
 }

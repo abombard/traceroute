@@ -26,7 +26,7 @@ static char	ft_getopt(char *arg)
 	return (arg[1]);
 }
 
-int	is_digit(char *arg)
+static int	is_digit(char *arg)
 {
 	if (!arg)
 		return (0);

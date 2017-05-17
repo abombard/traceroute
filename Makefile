@@ -55,10 +55,10 @@ $(LIST):
 	@make -C $(LIST_DIR)
 
 $(BUILD_DIR)/%.o:$(SRC_DIR)/%.c
-	@$(CC) $(FLAGS42) -c $< -o $@ $(INCLUDES)
+	$(CC) $(FLAGS42) -c $< -o $@ $(INCLUDES)
 
 $(NAME):$(LIBFT) $(PRINTF) $(LIST) $(OBJ)
-	@$(CC) $(FLAGS42) $(OBJ) $(LIBS) -o $@
+	$(CC) $(FLAGS42) $(OBJ) $(LIBS) -o $@
 	@echo "$@ was created"
 
 clean:

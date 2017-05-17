@@ -6,7 +6,7 @@
 /*   By: abombard <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/06 14:55:42 by abombard          #+#    #+#             */
-/*   Updated: 2017/05/06 14:57:30 by abombard         ###   ########.fr       */
+/*   Updated: 2017/05/17 16:37:09 by abombard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,8 @@ typedef struct			s_context
 	int					npackets;
 	int					seq;
 
-	struct timeval		tvbegin;
+	struct timeval		tv;
+	struct timezone		tz;
 
 	int					reachedtarget;
 
@@ -114,11 +115,11 @@ int						rsock_ready(int sfd);
 int						send_packet(t_context *context);
 int						recv_packet(t_context *context);
 
-long					round_triptime(struct timeval *tp);
+struct timeval			round_triptime(struct timeval *tp, struct timezone *tz);
 
 void					print_triptime(
 		struct icmp *icmp, t_context *context);
 
-void	ip_dump(struct iphdr *ip);
+void					ip_dump(struct ip *ip);
 
 #endif
